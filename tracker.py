@@ -101,3 +101,79 @@ def category_summary(expenses, budgets):
 
         if spent > budget:
             print(f"⚠ OVER BUDGET by GHS {spent-budget:.2f}")
+
+def full_report(expenses):
+    if not expenses:
+        print("No expenses recorded.")
+        return
+
+    total = sum(e["amount"] for e in expenses)
+
+    largest = max(expenses, key=lambda x: x["amount"])
+
+    category_totals = {}
+    for e in expenses:
+        category_totals[e["category"]] = category_totals.get(e["category"], 0) + e["amount"]
+
+    highest_category = max(category_totals, key=category_totals.get)
+
+    print("\nFULL REPORT")
+    print("Total spent:", total)
+    print("Largest expense:", largest["description"], largest["amount"])
+    print("Highest spending category:", highest_category)
+    print("Number of expenses:", len(expenses))
+
+def delete_expense(expenses):
+    view_expenses(expenses)
+
+    num = int(input("Enter expense number to delete: ")) - 1
+
+    if 0 <= num < len(expenses):
+        expenses.pop(num)
+        save_expenses(expenses) 
+        print("Expense deleted.")
+    else:
+        print("Invalid number.")
+
+
+def main():
+    budgets = load_budgets()
+    expenses = load_expenses()
+
+    while True:
+        print("\nExpense Tracker")
+        print("1. Set Budgets")
+        print("2. Log Expense")
+        print("3. View Expenses")
+        print("4. Category Summary")
+        print("5. Full Report")
+        print("6. Delete Expense")
+        print("7. Exit")
+
+        choice = input("Choose option: ")
+
+        if choice == "1":
+            set_budgets(budgets)
+
+        elif choice == "2":
+            log_expense(expenses, budgets)
+
+        elif choice == "3":
+            view_expenses(expenses)
+
+        elif choice == "4":
+            category_summary(expenses, budgets)
+
+        elif choice == "5":
+            full_report(expenses)
+
+        elif choice == "6":
+            delete_expense(expenses)
+
+        elif choice == "7":
+            break
+
+        else:
+            print("Invalid choice")
+
+main()
