@@ -45,3 +45,29 @@ def set_budgets(budgets):
         budgets[category] = amount
     save_budgets(budgets)
 
+def log_expense(expenses, budgets):
+    category = input("Enter category: ")
+
+    if category not in categories:
+        print("Invalid category")
+        return
+
+    amount = float(input("Enter amount: "))
+    description = input("Enter description: ")
+    date = datetime.date.today()
+
+    expense = {
+        "date": str(date),
+        "category": category,
+        "description": description,
+        "amount": amount
+    }
+
+    expenses.append(expense)
+    save_expenses(expenses)
+
+    # Budget warning
+    total = sum(e["amount"] for e in expenses if e["category"] == category)
+
+    if category in budgets and total > budgets[category]:
+        print("⚠ WARNING: You are over your budget!")
