@@ -71,3 +71,33 @@ def log_expense(expenses, budgets):
 
     if category in budgets and total > budgets[category]:
         print("⚠ WARNING: You are over your budget!")
+
+def view_expenses(expenses):
+    print("\nDate | Category | Description | Amount")
+    print("-"*50)
+
+    for e in expenses:
+        print(f"{e['date']} | {e['category']} | {e['description']} | GHS {e['amount']:.2f}")
+
+
+def category_summary(expenses, budgets):
+    totals = {}
+
+    for category in categories:
+        totals[category] = 0
+
+    for e in expenses:
+        totals[e["category"]] += e["amount"]
+
+    for category in categories:
+        spent = totals[category]
+        budget = budgets.get(category, 0)
+        remaining = budget - spent
+
+        print(f"\n{category}")
+        print(f"Spent: GHS {spent:.2f}")
+        print(f"Budget: GHS {budget:.2f}")
+        print(f"Remaining: GHS {remaining:.2f}")
+
+        if spent > budget:
+            print(f"⚠ OVER BUDGET by GHS {spent-budget:.2f}")
