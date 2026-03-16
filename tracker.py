@@ -129,9 +129,14 @@ def delete_expense(expenses):
     num = int(input("Enter expense number to delete: ")) - 1
 
     if 0 <= num < len(expenses):
-        expenses.pop(num)
-        save_expenses(expenses) 
-        print("Expense deleted.")
+        removed = expenses[num]
+        confirm = input(f"Are you sure you want to delete '{removed['description']}'? (yes/no): ").strip().lower()
+        if confirm == "yes":
+            expenses.pop(num)
+            save_expenses(expenses)
+            print("Expense deleted.")
+        else:
+            print("Deletion cancelled.")
     else:
         print("Invalid number.")
 
