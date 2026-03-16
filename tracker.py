@@ -1,4 +1,4 @@
-   import datetime
+import datetime
 
 categories = ["Food", "Transport", "Entertainment", "Utilities", "Health", "Other"]
 
